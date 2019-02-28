@@ -1,0 +1,25 @@
+{
+  "name": "WordGuess-CLI",
+  "version": "1.0.0",
+  "description": "A word guessing game that uses a CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrypticWoodWhite/WordGuess-CLI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CrypticWoodWhite/WordGuess-CLI/issues"
+  },
+  "homepage": "https://github.com/CrypticWoodWhite/WordGuess-CLI#readme",
+  "dependencies": {
+    "inquirer": "^6.2.2",
+    "prompt": "^1.0.0",
+    "random-words": "^1.1.0"
+  }
+}
