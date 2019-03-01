@@ -17,9 +17,6 @@ function Letter(abc) { // abc is one letter of the hidden word
         if (guess === abc) {
             this.isGuessed = true;
         }
-        else {
-            this.isGuessed = false;
-        }
     };
 }
 

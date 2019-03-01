@@ -21,13 +21,12 @@ function Word(hiddenWord) {
             wordDisplayArray.push(letterPlaceholder);
         }        
         wordDisplay = wordDisplayArray.join(" ");
-        console.log("Guess this word: " + wordDisplay);
+        console.log("\r\nGuess this word: " + wordDisplay + "\n\r");
     };
 
     this.guessEachLetter = function(guess) {
         for (var k=0; k<this.letters.length; k++) {
             this.letters[k].checkIfIsGuessed(guess);
-            console.log(this.letters[k].isGuessed);
         }
     };
 }
