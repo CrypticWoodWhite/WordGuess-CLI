@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/CrypticWoodWhite/WordGuess-CLI#readme",
   "dependencies": {
+    "clear": "^0.1.0",
     "inquirer": "^6.2.2",
-    "prompt": "^1.0.0",
     "random-words": "^1.1.0"
   }
 }

@@ -1,27 +1,26 @@
-function Letter(abc) { // abc is the hidden letter
+function Letter(abc) { // abc is one letter of the hidden word
     this.character = abc;
-    this.guessed = false;
+    this.isGuessed = false;
 
     this.checkLetter = function(guess) { // guess is the letter guessed by the user
         var letterDisplay;
-        process.stdout.write("Hidden word: ");
         if (guess === abc) {
             letterDisplay = abc;
-            process.stdout.write(letterDisplay + " ");
         }
         else {
             letterDisplay = "_";
-            process.stdout.write(letterDisplay + " ");
         }
-        console.log("\n");
+        return letterDisplay;
     };
 
-    this.isGuessed = function(guess) {
+    this.checkIfIsGuessed = function(guess) {
         if (guess === abc) {
-            this.guessed = true;
+            this.isGuessed = true;
         }
         else {
-            this.guessed = false;
+            this.isGuessed = false;
         }
     };
 }
+
+module.exports = Letter;
