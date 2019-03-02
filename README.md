@@ -16,3 +16,7 @@ A word guessing game similar to Hangman that uses a command-line interface
 * Node.js
 * Javascript
 * Git bash
+
+##### Links
+* https://github.com/CrypticWoodWhite/WordGuess-CLI
+* https://crypticwoodwhite.github.io/portfolio.html
