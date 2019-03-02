@@ -2,6 +2,8 @@ var Letter = require("./Letter.js");
 
 function Word(hiddenWord) {
 
+    this.word = hiddenWord;
+
     this.letters = [];
 
     this.letterObjs = function() {

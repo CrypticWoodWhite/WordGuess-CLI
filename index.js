@@ -18,7 +18,7 @@ function startGame() {
         }
     ]).then(function(inquirerResponse) {
         if (inquirerResponse.start === false) {
-            console.log("\n\rWe're sad to not play with you but we understand. Come back anytime!");
+            console.log("\n\rWe're sad to not play with you but we understand. Come back anytime!\n\r");
             return;
         }
         else {
@@ -32,7 +32,7 @@ function initGame() {
     clear(); // clears screen // why is this not working?
     lettersGuessed.length = 0; // clears the array of letters guessed
     remainingGuesses = 10; // resets remaining guesses
-    hiddenWord = new Word(randomWords().toLowerCase()); // selects new random word and makes sure it's lower case
+    hiddenWord = new Word(randomWords().toUpperCase()); // selects new random word and makes sure it's upper case
     hiddenWord.letterObjs();
 
     console.log("\n\rYou have " + remainingGuesses + " guesses. If you try to guess the entire word, you only have one try, and if you are wrong, you lose. Use your guesses wisely. You can quit at any time by typing in 'exit'.\n\r");
@@ -46,16 +46,12 @@ function pickLetter() {
     inquirer.prompt([
         {
             type: "input",
-            message: "Pick a letter (or word)",
+            message: "Pick a letter (or word) (or 'exit')",
             name: "letter"
         }
     ]).then(function(inquirerResponse) {
-        guess = inquirerResponse.letter.toLowerCase(); // makes the guess lower case
-        if (lettersGuessed.includes(guess) === false && guess.length === 1) {
-            lettersGuessed.push(guess); // keeps track of letters already guessed
-        }
+        guess = inquirerResponse.letter.toUpperCase(); // makes the guess upper case
         hiddenWord.guessEachLetter(guess);
-        hiddenWord.displayHiddenWord();
         gameLogic(guess); // checks guess against the hidden word etc
     })
 }
@@ -63,50 +59,51 @@ function pickLetter() {
 //working on this one
 function gameLogic(xyz) {
 
-    if (remainingGuesses > 0) { // tried using a while loop but then it just gets stuck forever
+    if (remainingGuesses > 1) {
     
-        if (xyz === "exit") { // user wants to quit game before it's finished // this works
-            console.log("\r\nWHAT?! Why are you quitting now? You're making us cry :'-(\r\n");
+        if (xyz === "exit") { // user wants to quit game before it's finished
+            console.log("\r\nWHAT?! Why are you quitting now? You're making us cry :'-(\r\nEND GAME.\r\n");
             startGame();
         }
-        else if (xyz.length > 1 && xyz != "exit") { // checks word (not letter) guesses // this presumably works
-            if (xyz === hiddenWord) {
-                console.log("\n\rYou are a certified genius! You win!\r\n");
+
+        else if (xyz.length > 1 && xyz != "exit") { // checks word (not letter) guesses
+            if (xyz === hiddenWord.word) {
+                console.log("\n\rWow! You are a certified genius! You win!\r\nEND GAME.\r\n");
                 startGame();
             }
-            else { // one wrong word guess and user loses // this works
-                console.log("You guessed wrong! Gosh you're such a loser :p\r\n");
+            else { // one wrong word guess and user loses
+                console.log("You guessed wrong! LOSER :p The word is: " + hiddenWord.word + ".\r\nEND GAME.\r\n");
                 startGame();
             }
         }
-        else if (xyz.length === 1) { 
-             console.log("guess is a letter"); // works up til this part
 
-            for (var l=0; l<hiddenWord.length; l++) { // there's a problem with this for loop. Maybe shouldn't use a for loop
+        else if (xyz.length === 1) { // checks letter guesses
+            if (lettersGuessed.includes(xyz) === true) { // reused a letter, word not guessed yet
+                remainingGuesses--;
+                console.log("\n\rYou already used this letter, try again. Remaining guesses: " + remainingGuesses + ".\r\n");
+            } // works up through this line
 
-                if (hiddenWord.letters[l].character === xyz && lettersGuessed.includes(xyz) === false) { // good guess, word not guessed yet
-                    console.log("\n\rYou guessed right! Remaining guesses: " + remainingGuesses);
+            else if (lettersGuessed.includes(xyz) === false) {
+
+                    if (hiddenWord.word.includes(xyz) === true) { // good guess, word not guessed yet
+                        console.log("\n\rYou guessed right! Remaining guesses: " + remainingGuesses + ".\r\n");
+                    }
+                    else if (hiddenWord.word.includes(xyz) === false) { // wrong guess, word not guessed yet
+                        remainingGuesses--;
+                        console.log("\n\rYou guessed WRONG, try again. Remaining guesses: " + remainingGuesses + ".\r\n");
+                    }
                 }
-                else if (hiddenWord.letters[l].character != xyz && lettersGuessed.includes(xyz) === false) { // wrong guess, word not guessed yet
-                    remainingGuesses--;
-                    console.log("\n\rYou guessed WRONG, try again. Remaining guesses: " + remainingGuesses);
-                }
-                else if (lettersGuessed.includes(xyz) === true) { // reused a letter, word not guessed yet
-                    remainingGuesses--;
-                    console.log("\n\rYou already used this letter, try again. Remaining guesses: " + remainingGuesses);
-                    
-                }
+
+            if (lettersGuessed.includes(guess) === false && guess.length === 1) { // code works again starting here
+                lettersGuessed.push(guess); // keeps track of letters already guessed
             }
-            pickLetter();
+            pickLetter(); 
         }
     }
-
-    else if (remainingGuesses === 0) { // lose // this does not work either
-        console.log("\n\rYou ran out of guesses! Gosh you're such a loser :p\r\n");
+    else { // user runs out of guesses before guessing word
+        console.log("\n\rYou ran out of guesses! Gosh you're such a loser :p The word is: " + hiddenWord.word + ".\r\nEND GAME.\r\n");
         startGame();
     }
-
-
 }
 
 startGame();
