@@ -29,11 +29,11 @@ function startGame() {
 
 // initialize game
 function initGame() {
-    clear(); // clears screen // why is this not working?
+    clear(); // clears screen (actually just scrolls to hide all preceding stuff) 
     lettersGuessed.length = 0; // clears the array of letters guessed
     remainingGuesses = 10; // resets remaining guesses
     hiddenWord = new Word(randomWords().toUpperCase()); // selects new random word and makes sure it's upper case
-    hiddenWord.letterObjs();
+    hiddenWord.letterObjs(); // turns hidden word into an array of objects
 
     console.log("\n\rYou have " + remainingGuesses + " guesses. If you try to guess the entire word, you only have one try, and if you are wrong, you lose. Use your guesses wisely. You can quit at any time by typing in 'exit'.\n\r");
 
@@ -42,6 +42,7 @@ function initGame() {
 
 // prompts user to pick a letter
 function pickLetter() {
+    // clear(); // clears screen (actually just scrolls to hide all preceding stuff) // alternative location to keep screen cleaner
     hiddenWord.displayHiddenWord();
     inquirer.prompt([
         {
@@ -51,16 +52,13 @@ function pickLetter() {
         }
     ]).then(function(inquirerResponse) {
         guess = inquirerResponse.letter.toUpperCase(); // makes the guess upper case
-        hiddenWord.guessEachLetter(guess);
-        gameLogic(guess); // checks guess against the hidden word etc
+        hiddenWord.guessEachLetter(guess); // checks if letter has already been guessed and updates boolean if necessary
+        gameLogic(guess);
     })
 }
 
-//working on this one
 function gameLogic(xyz) {
-
     if (remainingGuesses > 1) {
-    
         if (xyz === "exit") { // user wants to quit game before it's finished
             console.log("\r\nWHAT?! Why are you quitting now? You're making us cry :'-(\r\nEND GAME.\r\n");
             startGame();
@@ -72,7 +70,7 @@ function gameLogic(xyz) {
                 startGame();
             }
             else { // one wrong word guess and user loses
-                console.log("You guessed wrong! LOSER :p The word is: " + hiddenWord.word + ".\r\nEND GAME.\r\n");
+                console.log("\n\rYou guessed wrong! LOSER :p The word is: " + hiddenWord.word + ".\r\nEND GAME.\r\n");
                 startGame();
             }
         }
@@ -82,7 +80,6 @@ function gameLogic(xyz) {
                 remainingGuesses--;
                 console.log("\n\rYou already used this letter, try again. Remaining guesses: " + remainingGuesses + ".\r\n");
             } // works up through this line
-
             else if (lettersGuessed.includes(xyz) === false) {
 
                     if (hiddenWord.word.includes(xyz) === true) { // good guess, word not guessed yet
@@ -100,6 +97,7 @@ function gameLogic(xyz) {
             pickLetter(); 
         }
     }
+
     else { // user runs out of guesses before guessing word
         console.log("\n\rYou ran out of guesses! Gosh you're such a loser :p The word is: " + hiddenWord.word + ".\r\nEND GAME.\r\n");
         startGame();
