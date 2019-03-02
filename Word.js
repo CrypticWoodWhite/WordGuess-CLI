@@ -31,4 +31,19 @@ function Word(hiddenWord) {
     };
 }
 
+// var stuff = new Word("things");
+// stuff.letterObjs();
+// console.log("letters: " + stuff.letters);
+// console.log("display hidden word: ");
+// stuff.guessEachLetter("a");
+// stuff.displayHiddenWord("a");
+// stuff.guessEachLetter("e");
+// stuff.displayHiddenWord("e");
+// stuff.guessEachLetter("i");
+// stuff.displayHiddenWord("i");
+// stuff.guessEachLetter("o");
+// stuff.displayHiddenWord("o");
+// stuff.guessEachLetter("u");
+// stuff.displayHiddenWord("u");
+
 module.exports = Word;

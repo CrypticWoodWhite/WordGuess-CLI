@@ -29,7 +29,7 @@ function startGame() {
 
 // initialize game
 function initGame() {
-    clear(); // clears screen
+    clear(); // clears screen // why is this not working?
     lettersGuessed.length = 0; // clears the array of letters guessed
     remainingGuesses = 10; // resets remaining guesses
     hiddenWord = new Word(randomWords().toLowerCase()); // selects new random word and makes sure it's lower case
@@ -52,53 +52,61 @@ function pickLetter() {
     ]).then(function(inquirerResponse) {
         guess = inquirerResponse.letter.toLowerCase(); // makes the guess lower case
         if (lettersGuessed.includes(guess) === false && guess.length === 1) {
-            lettersGuessed.push(guess);
+            lettersGuessed.push(guess); // keeps track of letters already guessed
         }
-        gameLogic();
-    }
-    )
+        hiddenWord.guessEachLetter(guess);
+        hiddenWord.displayHiddenWord();
+        gameLogic(guess); // checks guess against the hidden word etc
+    })
 }
 
 //working on this one
-function gameLogic() {
-    if (remainingGuesses > 0) {
-    
-        if (guess === "exit") { // user wants to quit game before it's finished
-            console.log("\r\n\r\nWHAT?! Why are you quitting now? You're making us cry.");
-            return;
-        }
-        else if (guess.length > 1 && guess != "exit") { // checks word (not letter) guesses
-            // there's a scope problem with the var guess
-            if (guess === hiddenWord) {
-                console.log("\n\rYou are a certified genius! You win!");
-                startGame();
-            }
-            else {
-                console.log("\n\rYou ran out of guesses! Gosh you're such a loser :p");
-                startGame();
-            }
-        }
-        else if (guess.length = 1) { 
-            if () { // good guess, word not guessed yet
-                console.log("\n\rYou guessed right! Remaining guesses: " + remainingGuesses);
-                pickLetter();
-            }
-            else if () { // wrong guess, word not guessed yet
-                remainingGuesses--;
-                console.log("\n\rYou guessed WRONG :( Remaining guesses: " + remainingGuesses);
-                pickLetter();
-            }
-            else if (lettersGuessed.includes(guess) === true) { // reused a letter, word not guessed yet
-                remainingGuesses--;
-                console.log("\n\rYou already used this letter, try again. Remaining guesses: " + remainingGuesses);
-                pickLetter();
-            }
-    }}
+function gameLogic(xyz) {
 
-    else if if (remainingGuesses = 0 &&) { // lose
-        console.log("\n\rYou ran out of guesses! Gosh you're such a loser :p");
+    if (remainingGuesses > 0) { // tried using a while loop but then it just gets stuck forever
+    
+        if (xyz === "exit") { // user wants to quit game before it's finished // this works
+            console.log("\r\nWHAT?! Why are you quitting now? You're making us cry :'-(\r\n");
+            startGame();
+        }
+        else if (xyz.length > 1 && xyz != "exit") { // checks word (not letter) guesses // this presumably works
+            if (xyz === hiddenWord) {
+                console.log("\n\rYou are a certified genius! You win!\r\n");
+                startGame();
+            }
+            else { // one wrong word guess and user loses // this works
+                console.log("You guessed wrong! Gosh you're such a loser :p\r\n");
+                startGame();
+            }
+        }
+        else if (xyz.length === 1) { 
+             console.log("guess is a letter"); // works up til this part
+
+            for (var l=0; l<hiddenWord.length; l++) { // there's a problem with this for loop. Maybe shouldn't use a for loop
+
+                if (hiddenWord.letters[l].character === xyz && lettersGuessed.includes(xyz) === false) { // good guess, word not guessed yet
+                    console.log("\n\rYou guessed right! Remaining guesses: " + remainingGuesses);
+                }
+                else if (hiddenWord.letters[l].character != xyz && lettersGuessed.includes(xyz) === false) { // wrong guess, word not guessed yet
+                    remainingGuesses--;
+                    console.log("\n\rYou guessed WRONG, try again. Remaining guesses: " + remainingGuesses);
+                }
+                else if (lettersGuessed.includes(xyz) === true) { // reused a letter, word not guessed yet
+                    remainingGuesses--;
+                    console.log("\n\rYou already used this letter, try again. Remaining guesses: " + remainingGuesses);
+                    
+                }
+            }
+            pickLetter();
+        }
+    }
+
+    else if (remainingGuesses === 0) { // lose // this does not work either
+        console.log("\n\rYou ran out of guesses! Gosh you're such a loser :p\r\n");
         startGame();
     }
-}}
+
+
+}
 
 startGame();

@@ -4,8 +4,8 @@ function Letter(abc) { // abc is one letter of the hidden word
 
     this.checkLetter = function(guess) { // guess is the letter guessed by the user
         var letterDisplay;
-        if (guess === abc) {
-            letterDisplay = abc;
+        if (guess === this.character || this.isGuessed === true)  {
+            letterDisplay = this.character;
         }
         else {
             letterDisplay = "_";
@@ -14,7 +14,7 @@ function Letter(abc) { // abc is one letter of the hidden word
     };
 
     this.checkIfIsGuessed = function(guess) {
-        if (guess === abc) {
+        if (guess === this.character) {
             this.isGuessed = true;
         }
     };
