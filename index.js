@@ -79,7 +79,7 @@ function gameLogic(xyz) {
             if (lettersGuessed.includes(xyz) === true) { // reused a letter, word not guessed yet
                 remainingGuesses--;
                 console.log("\n\rYou already used this letter, try again. Remaining guesses: " + remainingGuesses + ".\r\n");
-            } // works up through this line
+            }
             else if (lettersGuessed.includes(xyz) === false) {
 
                     if (hiddenWord.word.includes(xyz) === true) { // good guess, word not guessed yet
@@ -91,7 +91,7 @@ function gameLogic(xyz) {
                     }
                 }
 
-            if (lettersGuessed.includes(guess) === false && guess.length === 1) { // code works again starting here
+            if (lettersGuessed.includes(guess) === false && guess.length === 1) {
                 lettersGuessed.push(guess); // keeps track of letters already guessed
             }
             pickLetter(); 
